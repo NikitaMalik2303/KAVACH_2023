@@ -5,13 +5,22 @@ import speech_recognition as sr
 from time import ctime
 import time
 import os
+import subprocess
+import threading
 from gtts import gTTS
+import nltk
+from nltk.corpus import stopwords
 
 def speak(audioString):
     print(audioString)
     tts = gTTS(text=audioString, lang='en')
     tts.save("audio.mp3")
     os.system("mpg321 audio.mp3")
+    
+def startVideo():
+    global procid
+    procid=subprocess.Popen(['python','Streamer.py'])
+    
 
 def recordAudio():
     # Record Audio
@@ -35,24 +44,24 @@ def recordAudio():
 
 def jarvis(data):
     print(data)
-    if "how are you" in data:
-        speak("I am fine")
-
-    if "Apple" in data:
+    if "Aasas" in data:
         speak(ctime())
         
     if "help" in data:
-        os.system("python Streamer.py")
+        global x
+        x = threading.Thread(target=startVideo, args=())
+        x.start()
+        # os.system("python Streamer.py")
+    if "orange" in data:
+        print("oooo")
+        global procid
+        procid.kill()
+     
 
-    if "where is" in data:
-        data = data.split(" ")
-        location = data[2]
-        speak("Hold on Frank, I will show you where " + location + " is.")
-        os.system("chromium-browser https://www.google.nl/maps/place/" + location + "/&amp;")
-
+    
 # initialization
+speak("hey")
 time.sleep(2)
-speak("Hi Frank, what can I do for you?")
 while 1:
     data = recordAudio()
     jarvis(data)

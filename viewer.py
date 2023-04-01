@@ -50,8 +50,6 @@ while True:
             cv2.rectangle(source, (x, y), (x + w, y + h), (0, 255, 0), 2)
             cv2.putText(source, name, (x, y), cv2.FONT_HERSHEY_SIMPLEX,0.75, (0, 255, 0), 2)
     cv2.imshow("Frame", source)
-        
-    #cv2.imshow("Stream", source)
     cv2.waitKey(1) 
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
